@@ -297,36 +297,6 @@ def cut_words_from_text(text):
 
     return nltk.regexp_tokenize(del_url_at(text), pattern)
 
-
-def extract_publisher_emotion(content, content_words):
-    text, cut_words = content, content_words
-
-    arr = np.zeros(38)
-    arr[0:18] = nrc_arr(cut_words)
-    arr[18:22] = sentiment_score(text)
-    arr[22:38] = auxilary_features(text, cut_words)
-
-    return arr
-
-
-def extract_social_emotion_value_1(comments):
-    a = []
-    for i in range(len(comments)):
-        c = {}
-        b = sentiment_score(comments[i])
-        c["comments"] = comments[i]
-        c["value"] = b
-        a.append(c)
-    max_emo = heapq.nlargest(5, a, lambda x: x["value"])
-    min_emo = heapq.nsmallest(5, a, lambda x: x["value"])
-    max_emo.extend(min_emo)
-    comments = []
-    for i in range(len(max_emo)):
-        comments.append(max_emo[i]["comments"])
-
-    return comments
-
-
 import pandas as pd
 import jieba
 import os
